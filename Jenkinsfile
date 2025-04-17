@@ -13,5 +13,14 @@ pipeline {
      sh 'cd spring-boot-app && mvn clean compile -B'
          }
     }
+  stage('Unit Tests') {
+     steps {
+          sh '''
+     cd spring-boot-app &&  mvn test -B
+    '''
+    junit '**/target/surefire-reports/*.xml'
+  }
+}
+
   }
 }
