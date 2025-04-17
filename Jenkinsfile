@@ -54,17 +54,26 @@ pipeline {
     '''
   }
 }
-    stage('Deploy to Test') {
-      steps {
-        // Shell helm, mais tu peux aussi utiliser un step du Kubernetes Continuous Deploy Plugin
-        sh '''
-          helm repo update
-          helm upgrade --install springboot-test helm-chart/ \
-            --namespace test --create-namespace \
-            --set image.tag=${BUILD_NUMBER}
-        '''
+
+
+	stage('Build and Push Docker Image') {
+	steps {
+    script {
+      def dockerRegistry = "docker.io"
+      def dockerUser = "amendhouibi22"
+      def imageName = "springboot-app"
+      def versionTag = "${BUILD_NUMBER}"
+      def imageFull = "${dockerRegistry}/${dockerUser}/${imageName}:${versionTag}"
+      def imageLatest = "${dockerRegistry}/${dockerUser}/${imageName}:latest"
+
+      docker.withRegistry("https://${dockerRegistry}", 'docker') {
+        def builtImage = docker.build(imageFull, "spring-boot-app")
+        builtImage.push()
+        builtImage.push("latest")
       }
     }
+  }
+}
 
 
  }
