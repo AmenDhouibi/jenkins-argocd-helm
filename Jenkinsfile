@@ -33,7 +33,7 @@ pipeline {
           sh '''
            cd spring-boot-app && mvn clean verify sonar:sonar -B \
               -Dsonar.projectKey=my-project-key \
-              -Dsonar.sources=spring-boot-app/src
+              -Dsonar.sources=src
           '''
         }
       }
