@@ -55,25 +55,22 @@ pipeline {
   }
 }
 
+stage('Build and Push Docker Image') {
+    steps {
+        script {
+            def imageName = "amendhouibi22/springboot-app"
+            def imageTag = "${BUILD_NUMBER}"
 
-	stage('Build and Push Docker Image') {
-	steps {
-    script {
-      def dockerRegistry = "docker.io"
-      def dockerUser = "amendhouibi22"
-      def imageName = "springboot-app"
-      def versionTag = "${BUILD_NUMBER}"
-      def imageFull = "${dockerRegistry}/${dockerUser}/${imageName}:${versionTag}"
-      def imageLatest = "${dockerRegistry}/${dockerUser}/${imageName}:latest"
-
-      docker.withRegistry("https://${dockerRegistry}", 'docker') {
-        def builtImage = docker.build(imageFull, "spring-boot-app")
-        builtImage.push()
-        builtImage.push("latest")
-      }
+            withDockerRegistry([credentialsId: 'docker', url: 'https://index.docker.io/v1/']) {
+                sh """
+                    docker build -t ${imageName}:${imageTag} spring-boot-app
+                    docker push ${imageName}:${imageTag}
+                """
+            }
+        }
     }
-  }
 }
+
 
     stage('Deploy to Test') {
       steps {
