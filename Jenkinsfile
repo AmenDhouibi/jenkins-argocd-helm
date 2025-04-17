@@ -1,6 +1,9 @@
 pipeline {
   agent any
 
+   environment {
+        KUBECONFIG = '/home/amen/.kube/config'  // Emplacement du fichier kubeconfig
+    }
   stages {
     stage('Checkout') {
       steps {
