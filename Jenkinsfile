@@ -27,6 +27,26 @@ pipeline {
               }
     }
 
+    stage('Code Quality') {
+      steps {
+        withSonarQubeEnv('sonar-server') {
+          sh '''
+           cd jenkins-argocd-helm && mvn clean verify sonar:sonar -B \
+              -Dsonar.projectKey=my-project-key \
+              -Dsonar.sources=spring-boot-app/src
+          '''
+        }
+      }
+    }
+    stage('Quality Gate') {
+      steps {
+        // requires “Pipeline: SonarQube” plugin
+        waitForQualityGate abortPipeline: true
+      }
+    }
+}
+
+
 
  }
 }
