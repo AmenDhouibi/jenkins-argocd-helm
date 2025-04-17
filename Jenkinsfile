@@ -31,7 +31,7 @@ pipeline {
       steps {
         withSonarQubeEnv('sonar-server') {
           sh '''
-           cd jenkins-argocd-helm && mvn clean verify sonar:sonar -B \
+           cd spring-boot-app && mvn clean verify sonar:sonar -B \
               -Dsonar.projectKey=my-project-key \
               -Dsonar.sources=spring-boot-app/src
           '''
@@ -46,6 +46,14 @@ pipeline {
     }
 
 
+    stage('Package') {
+         steps {
+        sh '''
+          cd spring-boot-app
+          mvn package -B
+    '''
+  }
+}
 
 
  }
