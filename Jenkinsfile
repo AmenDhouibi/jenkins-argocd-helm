@@ -76,7 +76,6 @@ stage('Build and Push Docker Image') {
       steps {
         // Shell helm, mais tu peux aussi utiliser un step du Kubernetes Continuous Deploy Plugin
         sh '''
-          helm repo update
           helm upgrade --install springboot-test . \
             --namespace test --create-namespace \
             --set image.tag=${BUILD_NUMBER}
