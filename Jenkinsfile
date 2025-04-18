@@ -97,7 +97,7 @@ stage('Build and Push Docker Image') {
         git add values.yaml
         git commit -m "ci: bump image.tag to ${BUILD_NUMBER}"
 
-        git push https://${GIT_USER}:${GIT_TOKEN}@github.com/${GIT_USER}/jenkins-argocd-helm.git HEAD:main
+        git push https://${GIT_TOKEN}@github.com/${GIT_USER}/jenkins-argocd-helm.git HEAD:main
       '''
     }
   }
