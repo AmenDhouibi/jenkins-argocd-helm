@@ -82,5 +82,26 @@ stage('Build and Push Docker Image') {
         sh 'helm upgrade --install springboot-test . --namespace test --create-namespace --set image.tag=16'
     }
     }
+
+   stage('Bump Chart Version') {
+        steps {
+    withCredentials([usernamePassword(credentialsId: 'github-creds', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_TOKEN')]) {
+      sh '''
+        git config user.email "amen_dhouibi@yahoo.com"
+        git config user.name  "AmenDhouibi"
+
+        # Replace the tag
+        sed -i "s/tag: \\".*\\"/tag: \\"${BUILD_NUMBER}\\"/g" values.yaml
+
+        # Git commit & push using credentials
+        git add values.yaml
+        git commit -m "ci: bump image.tag to ${BUILD_NUMBER}"
+
+        git push https://${GIT_USER}:${GIT_TOKEN}@github.com/${GIT_USER}/Jenkins-Zero-To-Hero.git HEAD:main
+      '''
+    }
+  }
+}
+
  }
 }
