@@ -91,7 +91,7 @@ stage('Build and Push Docker Image') {
         git config user.name  "AmenDhouibi"
 
         # Replace the tag
-        sed -i "s/tag: \\".*\\"/tag: \\"${BUILD_NUMBER}\\"/g" values.yaml
+        sed -i "s/tag: .*/tag: ${BUILD_NUMBER}/g" values.yaml
 
         # Git commit & push using credentials
         git add values.yaml
