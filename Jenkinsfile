@@ -76,6 +76,9 @@ stage('Build and Push Docker Image') {
 
 
     stage('Deploy to Test') {
+    environment {
+        KUBECONFIG = '/home/amen/.kube/config'
+    }
       steps {
         // Shell helm, mais tu peux aussi utiliser un step du Kubernetes Continuous Deploy Plugin
         sh '''
