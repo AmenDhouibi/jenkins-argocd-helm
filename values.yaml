@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: docker.io/amendhouibi22/springboot-app
-  tag: 30
+  tag: 31
   pullPolicy: Always
 
 service:
