@@ -1,9 +1,10 @@
 pipeline {
   agent any
 
-   environment {
-        KUBECONFIG = '/home/amen/.kube/config'  // Emplacement du fichier kubeconfig
-    }
+environment {
+    KUBECONFIG = '/var/lib/jenkins/.kube/config'
+}
+
   stages {
     stage('Checkout') {
       steps {
@@ -76,9 +77,6 @@ stage('Build and Push Docker Image') {
 
 
     stage('Deploy to Test') {
-    environment {
-        KUBECONFIG = '/home/amen/.kube/config'
-    }
           steps {
         sh 'kubectl get nodes'  // Test d'accès Kubernetes
         sh 'helm upgrade --install springboot-test . --namespace test --create-namespace --set image.tag=16'
