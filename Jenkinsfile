@@ -85,7 +85,7 @@ stage('Build and Push Docker Image') {
 
    stage('Bump Chart Version') {
         steps {
-    withCredentials([usernamePassword(credentialsId: 'github-creds', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_TOKEN')]) {
+    withCredentials([usernamePassword(credentialsId: 'github_credentials', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_TOKEN')]) {
       sh '''
         git config user.email "amen_dhouibi@yahoo.com"
         git config user.name  "AmenDhouibi"
